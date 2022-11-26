@@ -254,10 +254,6 @@ function toNumber(value, def) {
   return Number.isNaN(Number(value)) ? def : Number(value);
 }
 
-console.log(roundToPowerOfTen(1235, 1));
-console.log(roundToPowerOfTen(1235, 2));
-console.log(roundToPowerOfTen(1935, 3));
-
 module.exports = {
   getRectangleArea,
   getCircleCircumference,
