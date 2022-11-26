@@ -180,14 +180,25 @@ function getParallelepipedDiagonal(a, b, c) {
  *   1678, 3  => 2000
  */
 function roundToPowerOfTen(num, pow) {
-  const str = num.toString();
-  let counter = 0;
-  for (let index = str.length - 1; index >= 0 && counter < pow; index -= 1) {
-    str[index] = '0';
-    counter += 1;
+  const replaceAt = (str, i, r) => str.substring(0, i) + r + str.substring(i + r.length);
+  let stringed = String(num);
+  const powedDigit = Number(stringed.charAt(stringed.length - pow));
+
+  if (powedDigit < 5) {
+    for (let counter = stringed.length - pow; counter < stringed.length; counter += 1) {
+      stringed = replaceAt(stringed, counter, '0');
+    }
+    return Number(stringed);
+  }
+  const toAdd = 10 ** stringed.slice(stringed.length - pow).length;
+  const newNum = num + toAdd;
+  let newStr = String(newNum);
+
+  for (let counter = newStr.length - pow; counter < newStr.length; counter += 1) {
+    newStr = replaceAt(newStr, counter, '0');
   }
 
-  return Number(str);
+  return Number(newStr);
 }
 
 /**
@@ -207,8 +218,19 @@ function roundToPowerOfTen(num, pow) {
  *   16 => false
  *   17 => true
  */
-function isPrime(/* n */) {
-  throw new Error('Not implemented');
+
+function isPrime(n) {
+  let flag = true;
+  // Getting the value form text
+  // field using DOM
+  for (let i = 2; i <= n - 1; i += 1) {
+    if (n % i === 0) {
+      flag = false;
+      break;
+    }
+  }
+  if (flag === true) return true;
+  return false;
 }
 
 /**
@@ -226,9 +248,15 @@ function isPrime(/* n */) {
  *   toNumber(42, 0) => 42
  *   toNumber(new Number(42), 0) => 42
  */
-function toNumber(/* value, def */) {
-  throw new Error('Not implemented');
+function toNumber(value, def) {
+  if (value === undefined || value === null) return def;
+
+  return Number.isNaN(Number(value)) ? def : Number(value);
 }
+
+console.log(roundToPowerOfTen(1235, 1));
+console.log(roundToPowerOfTen(1235, 2));
+console.log(roundToPowerOfTen(1935, 3));
 
 module.exports = {
   getRectangleArea,
